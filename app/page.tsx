@@ -3,12 +3,21 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.DATABASE_URL!);
 
+type Quiz = {
+  quiz_id: number;
+  title: string;
+}
+
 async function Quizzes() {
+  const quizzes: Quiz[] = await sql`
+  SELECT * FROM quizzes
+  `;
+
   return (
     <ul>
       {quizzes.map((quiz) => (
-        <li key={quiz.id}>
-<Link href={`/quiz/${quiz.id}`}>{quiz.name}</Link>
+        <li key={quiz.quiz_id}>
+<Link href={`/quiz/${quiz.quiz_id}`}>{quiz.title}</Link>
         </li>
       ))}
     </ul>
